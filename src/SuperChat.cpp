@@ -9,6 +9,7 @@
 #include <iostream>
 #include <pthread.h>
 
+//#include "globals.h"
 #include "GUI/gui.h"
 #include "DDSEntityManager.h"
 #include "ccpp_SuperChat.h"

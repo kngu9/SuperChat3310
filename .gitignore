@@ -1,1 +1,4 @@
-*.log
+ospl-error.log
+ospl-info.log
+a.out
+

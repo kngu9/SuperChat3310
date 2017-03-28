@@ -1,10 +1,14 @@
 #ifndef _H_WINDOW_H_
 #define _H_WINDOW_H_
 
+#include <iostream>
 #include <ncurses.h>
 #include <stdio.h>
 #include <string.h>
 #include <cmath>
+#include <vector>
+
+using namespace std;
 
 class Window {
     protected:
@@ -33,9 +37,17 @@ class ChatWindow : public Window {
 };
 
 class TextWindow : public Window {
+    private:
+        vector<string> users;
     public:
         TextWindow(int h, int w, int start_row, int start_col, int d_row, int d_col) : Window(h, w, start_row, start_col, d_row, d_col) {};
         char * getString(const char * form, char * dst, int max_len);
+        void addUser(string user) { this->users.push_back(user); };
+};
+
+class ClientWindow : public Window {
+    public:
+        ClientWindow(int h, int w, int start_row, int start_col, int d_row, int d_col) : Window(h, w, start_row, start_col, d_row, d_col) {};
 };
 
 #endif //_H_WINDOW_H_

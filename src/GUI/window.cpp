@@ -26,8 +26,9 @@ char * TextWindow::getString(const char * form, char * dst, int max_len) {
     echo();
 	wmove(this->win, 1, 1);
 
-    do{
+    do {
         this->reset();
+
         wprintw(this->win, "%s: ", form);
         wgetnstr(this->win, dst, max_len);
 
@@ -56,21 +57,18 @@ void ChatWindow::_addMessage(const char * prepend, const char * msg, int pattr, 
     double l1 = strlen(prepend);
     double l2 = strlen(msg);
 
-    double n = (l1+l2+1)/this->d_col;
-    int line_used = static_cast<int>(ceil(n));
-
-    if (prepend != NULL){
-        // message prefix (prepend)
-        wattron(this->win,pattr);
+    if (prepend != NULL) {
+        wattron(this->win, pattr);
         mvwprintw(this->win, range, 1,"%s",prepend);
         wattroff(this->win, pattr);
+
         wattron(this->win, attr);
         wprintw(this->win, ": %s",msg);
         wattroff(this->win, attr);
     } else {
-        wattron(this->win,pattr);
+        wattron(this->win, pattr);
         mvwprintw(this->win, range, 1, "%s",msg);
-        wattroff(this->win,pattr);
+        wattroff(this->win, pattr);
     }
 
     range += 1;

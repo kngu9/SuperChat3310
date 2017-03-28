@@ -33,7 +33,7 @@ class GUI {
 
         Window * menu_window;
         ChatWindow * chat_window;
-        Window * chat_clients_window;
+        ClientWindow * chat_clients_window;
         TextWindow * input_window;
 
     public:
