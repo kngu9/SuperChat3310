@@ -32,3 +32,224 @@ Node        : khanh-VirtualBox
 Process     : SuperChat <21175>
 Thread      : OSPL Lease Renew Thread 7ffa80ea6700
 Internals   : V6.4.140407OSS/3b83e82/3b83e82/OpenSplice domain service/spliced.c/153/0/1490661859.894160778
+========================================================================================
+Report      : ERROR
+Date        : Tue Mar 28 13:18:02 CDT 2017
+Description : Durability failed to renew its lease within the configured lease expiry-time (10.000000000). The lease renewal took 8977.346829676 s.
+Node        : khanh-VirtualBox
+Process     : SuperChat <21175>
+Thread      : leaseThread 7ffa80bf5700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/Durability Service/d_durability.c/182/0/1490725082.429053706
+========================================================================================
+Report      : ERROR
+Date        : Tue Mar 28 13:18:02 CDT 2017
+Description : Splice-daemon failed to renew its lease within the configured lease expiry-time (10.000000000). The lease renewal took 8977.346925675 s.
+Node        : khanh-VirtualBox
+Process     : SuperChat <21175>
+Thread      : OSPL Lease Renew Thread 7ffa80ea6700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/OpenSplice domain service/spliced.c/153/0/1490725082.429158415
+========================================================================================
+Report      : ERROR
+Date        : Tue Mar 28 13:27:11 CDT 2017
+Description : ddsi_conn_write failed -1
+
+Node        : khanh-VirtualBox
+Process     : SuperChat <21175>
+Thread      : xmit.user 7ffa80c06700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/ddsi2/q_xmsg.c/1051/0/1490725631.729419799
+========================================================================================
+Report      : ERROR
+Date        : Tue Mar 28 13:27:11 CDT 2017
+Description : ddsi_conn_write failed -1
+
+Node        : khanh-VirtualBox
+Process     : SuperChat <21175>
+Thread      : tev 7ffa80c5b700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/ddsi2/q_xmsg.c/1051/0/1490725631.829565719
+========================================================================================
+Report      : ERROR
+Date        : Tue Mar 28 13:27:11 CDT 2017
+Description : ddsi_conn_write failed -1
+
+Node        : khanh-VirtualBox
+Process     : SuperChat <21175>
+Thread      : tev 7ffa80c5b700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/ddsi2/q_xmsg.c/1051/0/1490725631.936181163
+========================================================================================
+Report      : ERROR
+Date        : Tue Mar 28 13:27:11 CDT 2017
+Description : ddsi_conn_write failed -1
+
+Node        : khanh-VirtualBox
+Process     : SuperChat <21175>
+Thread      : xmit.user 7ffa80c06700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/ddsi2/q_xmsg.c/1051/0/1490725631.990548795
+========================================================================================
+Report      : ERROR
+Date        : Tue Mar 28 13:27:12 CDT 2017
+Description : ddsi_conn_write failed -1
+
+Node        : khanh-VirtualBox
+Process     : SuperChat <21175>
+Thread      : tev 7ffa80c5b700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/ddsi2/q_xmsg.c/1051/0/1490725632.136251190
+========================================================================================
+Report      : ERROR
+Date        : Tue Mar 28 13:27:12 CDT 2017
+Description : ddsi_conn_write failed -1
+
+Node        : khanh-VirtualBox
+Process     : SuperChat <21175>
+Thread      : tev 7ffa80c5b700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/ddsi2/q_xmsg.c/1051/0/1490725632.538100968
+========================================================================================
+Report      : ERROR
+Date        : Tue Mar 28 13:27:12 CDT 2017
+Description : ddsi_conn_write failed -1
+
+Node        : khanh-VirtualBox
+Process     : SuperChat <21175>
+Thread      : xmit.user 7ffa80c06700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/ddsi2/q_xmsg.c/1051/0/1490725632.734417280
+========================================================================================
+Report      : ERROR
+Date        : Tue Mar 28 13:27:12 CDT 2017
+Description : ddsi_conn_write failed -1
+
+Node        : khanh-VirtualBox
+Process     : SuperChat <21175>
+Thread      : tev 7ffa80c5b700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/ddsi2/q_xmsg.c/1051/0/1490725632.836954445
+========================================================================================
+Report      : ERROR
+Date        : Tue Mar 28 13:27:12 CDT 2017
+Description : ddsi_conn_write failed -1
+
+Node        : khanh-VirtualBox
+Process     : SuperChat <21175>
+Thread      : tev 7ffa80c5b700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/ddsi2/q_xmsg.c/1051/0/1490725632.938903997
+========================================================================================
+Report      : ERROR
+Date        : Tue Mar 28 13:27:13 CDT 2017
+Description : ddsi_conn_write failed -1
+
+Node        : khanh-VirtualBox
+Process     : SuperChat <21175>
+Thread      : tev 7ffa80c5b700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/ddsi2/q_xmsg.c/1051/0/1490725633.054053579
+========================================================================================
+Report      : ERROR
+Date        : Tue Mar 28 13:27:19 CDT 2017
+Description : ddsi_conn_write failed -1
+
+Node        : khanh-VirtualBox
+Process     : SuperChat <21175>
+Thread      : xmit.user 7ffa80c06700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/ddsi2/q_xmsg.c/1051/0/1490725639.744205623
+========================================================================================
+Report      : ERROR
+Date        : Tue Mar 28 13:27:19 CDT 2017
+Description : ddsi_conn_write failed -1
+
+Node        : khanh-VirtualBox
+Process     : SuperChat <21175>
+Thread      : tev 7ffa80c5b700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/ddsi2/q_xmsg.c/1051/0/1490725639.844650733
+========================================================================================
+Report      : ERROR
+Date        : Tue Mar 28 13:27:19 CDT 2017
+Description : ddsi_conn_write failed -1
+
+Node        : khanh-VirtualBox
+Process     : SuperChat <21175>
+Thread      : tev 7ffa80c5b700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/ddsi2/q_xmsg.c/1051/0/1490725639.945031036
+========================================================================================
+Report      : ERROR
+Date        : Tue Mar 28 13:27:19 CDT 2017
+Description : ddsi_conn_write failed -1
+
+Node        : khanh-VirtualBox
+Process     : SuperChat <21175>
+Thread      : tev 7ffa80c5b700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/ddsi2/q_xmsg.c/1051/0/1490725639.984354869
+========================================================================================
+Report      : ERROR
+Date        : Tue Mar 28 13:27:19 CDT 2017
+Description : ddsi_conn_write failed -1
+
+Node        : khanh-VirtualBox
+Process     : SuperChat <21175>
+Thread      : xmit.user 7ffa80c06700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/ddsi2/q_xmsg.c/1051/0/1490725639.998508755
+========================================================================================
+Report      : ERROR
+Date        : Tue Mar 28 13:27:20 CDT 2017
+Description : ddsi_conn_write failed -1
+
+Node        : khanh-VirtualBox
+Process     : SuperChat <21175>
+Thread      : tev 7ffa80c5b700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/ddsi2/q_xmsg.c/1051/0/1490725640.144802256
+========================================================================================
+Report      : ERROR
+Date        : Tue Mar 28 13:27:20 CDT 2017
+Description : ddsi_conn_write failed -1
+
+Node        : khanh-VirtualBox
+Process     : SuperChat <21175>
+Thread      : tev 7ffa80c5b700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/ddsi2/q_xmsg.c/1051/0/1490725640.545838455
+========================================================================================
+Report      : ERROR
+Date        : Tue Mar 28 13:27:20 CDT 2017
+Description : ddsi_conn_write failed -1
+
+Node        : khanh-VirtualBox
+Process     : SuperChat <21175>
+Thread      : xmit.user 7ffa80c06700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/ddsi2/q_xmsg.c/1051/0/1490725640.746627321
+========================================================================================
+Report      : ERROR
+Date        : Tue Mar 28 13:27:20 CDT 2017
+Description : ddsi_conn_write failed -1
+
+Node        : khanh-VirtualBox
+Process     : SuperChat <21175>
+Thread      : tev 7ffa80c5b700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/ddsi2/q_xmsg.c/1051/0/1490725640.847212969
+========================================================================================
+Report      : ERROR
+Date        : Tue Mar 28 13:27:20 CDT 2017
+Description : ddsi_conn_write failed -1
+
+Node        : khanh-VirtualBox
+Process     : SuperChat <21175>
+Thread      : tev 7ffa80c5b700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/ddsi2/q_xmsg.c/1051/0/1490725640.951442364
+========================================================================================
+Report      : ERROR
+Date        : Tue Mar 28 13:27:21 CDT 2017
+Description : ddsi_conn_write failed -1
+
+Node        : khanh-VirtualBox
+Process     : SuperChat <21175>
+Thread      : tev 7ffa80c5b700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/ddsi2/q_xmsg.c/1051/0/1490725641.151614436
+========================================================================================
+Report      : ERROR
+Date        : Tue Mar 28 14:00:16 CDT 2017
+Description : Durability failed to renew its lease within the configured lease expiry-time (10.000000000). The lease renewal took 1543.759936870 s.
+Node        : khanh-VirtualBox
+Process     : SuperChat <21175>
+Thread      : leaseThread 7ffa80bf5700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/Durability Service/d_durability.c/182/0/1490727616.773094774
+========================================================================================
+Report      : ERROR
+Date        : Tue Mar 28 14:00:16 CDT 2017
+Description : Splice-daemon failed to renew its lease within the configured lease expiry-time (10.000000000). The lease renewal took 1543.760009815 s.
+Node        : khanh-VirtualBox
+Process     : SuperChat <21175>
+Thread      : OSPL Lease Renew Thread 7ffa80ea6700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/OpenSplice domain service/spliced.c/153/0/1490727616.786378788

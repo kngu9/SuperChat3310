@@ -275,14 +275,15 @@ chatroom_data * chat_room;
 user_data * cur_user;
 message_data * global_message;
 
-void ctrlc ( int )
+void ctrlc ( int dummy )
 {
     exit_flag = true;
 }
 
 void * pubThread(void * dummy) {
+    char * username = gui->requestName();
     global_message = new message_data((char*)"temporary");
-    cur_user = new user_data(gui->requestName());
+    cur_user = new user_data(username);
 
     while(!exit_flag) {
         char * temp_buffer = gui->getInput();
@@ -300,6 +301,8 @@ void * pubThread(void * dummy) {
 
             delete message_instance;
         }
+
+        gui->addMessage(username, temp_buffer);
 
         free(temp_buffer);
     }

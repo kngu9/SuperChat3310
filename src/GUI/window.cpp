@@ -1,6 +1,7 @@
 #include "window.h"
+#include "gui.h"
 
-Window::Window(int height, int width, int start_row, int start_col) {
+Window::Window(int height, int width, int start_row, int start_col, int d_row, int d_col) {
     this->height = height;
     this->width = width;
 
@@ -36,4 +37,46 @@ char * TextWindow::getString(const char * form, char * dst, int max_len) {
    this->reset();
 
    return dst;
+}
+
+void ChatWindow::reset() {
+    wclear(this->win);
+    box(this->win, 0, 0);
+    wmove(this->win, 1, 1);
+    wrefresh(this->win);
+
+    this->range = 1;
+}
+
+void ChatWindow::_addMessage(const char * prepend, const char * msg, int pattr, int attr) {
+    if(range > height - 2) {
+        this->reset();
+    }
+
+    double l1 = strlen(prepend);
+    double l2 = strlen(msg);
+
+    double n = (l1+l2+1)/this->d_col;
+    int line_used = static_cast<int>(ceil(n));
+
+    if (prepend != NULL){
+        // message prefix (prepend)
+        wattron(this->win,pattr);
+        mvwprintw(this->win, range, 1,"%s",prepend);
+        wattroff(this->win, pattr);
+        wattron(this->win, attr);
+        wprintw(this->win, ": %s",msg);
+        wattroff(this->win, attr);
+    } else {
+        wattron(this->win,pattr);
+        mvwprintw(this->win, range, 1, "%s",msg);
+        wattroff(this->win,pattr);
+    }
+
+    range += 1;
+    wrefresh(this->win);
+}
+
+void ChatWindow::addMessage(const char * username, const char * msg) {
+    this->_addMessage(username, msg, CLRP_LABEL, CLRP_NORMAL);
 }

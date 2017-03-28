@@ -42,6 +42,7 @@ class GUI {
 
         char * requestName();
         char * getInput();
+        char * addMessage(char * username, char * message);
 };
 
 #endif //_H_GUI_H_
