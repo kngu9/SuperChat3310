@@ -1,0 +1,34 @@
+========================================================================================
+Report      : ERROR
+Date        : Mon Mar 27 18:57:03 CDT 2017
+Description : ddsi_conn_write failed -1
+
+Node        : khanh-VirtualBox
+Process     : SuperChat <21175>
+Thread      : tev 7ffa80c5b700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/ddsi2/q_xmsg.c/1051/0/1490659023.966625136
+========================================================================================
+Report      : ERROR
+Date        : Mon Mar 27 18:57:03 CDT 2017
+Description : ddsi_conn_write failed -1
+
+Node        : khanh-VirtualBox
+Process     : SuperChat <21175>
+Thread      : tev 7ffa80c5b700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/ddsi2/q_xmsg.c/1051/0/1490659023.980275638
+========================================================================================
+Report      : ERROR
+Date        : Mon Mar 27 19:44:18 CDT 2017
+Description : Durability failed to renew its lease within the configured lease expiry-time (10.000000000). The lease renewal took 2226.368790062 s.
+Node        : khanh-VirtualBox
+Process     : SuperChat <21175>
+Thread      : leaseThread 7ffa80bf5700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/Durability Service/d_durability.c/182/0/1490661858.859497329
+========================================================================================
+Report      : ERROR
+Date        : Mon Mar 27 19:44:19 CDT 2017
+Description : Splice-daemon failed to renew its lease within the configured lease expiry-time (10.000000000). The lease renewal took 2226.364811595 s.
+Node        : khanh-VirtualBox
+Process     : SuperChat <21175>
+Thread      : OSPL Lease Renew Thread 7ffa80ea6700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/OpenSplice domain service/spliced.c/153/0/1490661859.894160778

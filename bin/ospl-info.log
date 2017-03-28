@@ -1,0 +1,88 @@
+========================================================================================
+Report      : INFO
+Date        : Mon Mar 27 17:53:31 CDT 2017
+Description : u_domainNew:Database allocated on heap
+Node        : khanh-VirtualBox
+Process     : SuperChat <19265>
+Thread      : spliced 7f7911215700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/user::u_domain::u_domainNew/u_domain.c/706/0/1490655211.471315259
+========================================================================================
+Report      : INFO
+Date        : Mon Mar 27 17:53:31 CDT 2017
+Description : ---------------------------------------------------------------
+              -- The service is using the following configuration settings --
+              ---------------------------------------------------------------
+              Domain (id)          : ospl_sp_ddsi (0)
+              Storage              : 10240 Kbytes
+              Storage threshold    : 1024 Kbytes
+              Storage address      : Not available
+              Locking              : default
+              Memory mode          : Heap memory
+              Builtin topics       : true
+              Priority inheritance : false
+Node        : khanh-VirtualBox
+Process     : SuperChat <19265>
+Thread      : spliced 7f7911215700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/The OpenSplice domain service/u_domain.c/827/0/1490655211.475235114
+========================================================================================
+Report      : INFO
+Date        : Mon Mar 27 17:53:31 CDT 2017
+Description : Service cmsoap disabled
+Node        : khanh-VirtualBox
+Process     : SuperChat <19265>
+Thread      : spliced 7f7911215700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/OpenSplice domain service/sr_componentInfo.c/439/0/1490655211.475456215
+========================================================================================
+Report      : INFO
+Date        : Mon Mar 27 17:53:31 CDT 2017
+Description : ++++++++++++++++++++++++++++++++++++++++++++++++
+              ++ The service 'splicedaemon' is now operational. 
+              ++++++++++++++++++++++++++++++++++++++++++++++++
+Node        : khanh-VirtualBox
+Process     : SuperChat <19265>
+Thread      : spliced 7f7911215700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/v_serviceChangeState/v_service.c/329/0/1490655211.476378698
+========================================================================================
+Report      : INFO
+Date        : Mon Mar 27 17:53:31 CDT 2017
+Description : ++++++++++++++++++++++++++++++++++++++++++++++++
+              ++ The service 'ddsi2' is now operational. 
+              ++++++++++++++++++++++++++++++++++++++++++++++++
+Node        : khanh-VirtualBox
+Process     : SuperChat <19265>
+Thread      : ddsi2 7f790ea26700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/v_serviceChangeState/v_service.c/329/0/1490655211.483213247
+========================================================================================
+Report      : INFO
+Date        : Mon Mar 27 17:53:31 CDT 2017
+Description : The durability service can by identified by ID: 600991171
+Node        : khanh-VirtualBox
+Process     : SuperChat <19265>
+Thread      : durability 7f790ed98700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/DurabilityService/d_durability.c/476/0/1490655211.995404968
+========================================================================================
+Report      : INFO
+Date        : Mon Mar 27 17:53:39 CDT 2017
+Description : ++++++++++++++++++++++++++++++++++++++++++++++++
+              ++ The service 'durability' is now operational. 
+              ++++++++++++++++++++++++++++++++++++++++++++++++
+Node        : khanh-VirtualBox
+Process     : SuperChat <19265>
+Thread      : durability 7f790ed98700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/v_serviceChangeState/v_service.c/329/0/1490655219.062849143
+========================================================================================
+Report      : INFO
+Date        : Mon Mar 27 17:53:40 CDT 2017
+Description : Termination request (signal 2) received from PID 19265 (self), UID 1000
+Node        : khanh-VirtualBox
+Process     : SuperChat <19265>
+Thread      : signalHandler 7f790f684700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/signalHandlerThread/os_signalHandler.c/503/0/1490655220.578830157
+========================================================================================
+Report      : INFO
+Date        : Mon Mar 27 17:53:41 CDT 2017
+Description : Termination request (signal 2) received from PID 19265 (self), UID 1000
+Node        : khanh-VirtualBox
+Process     : SuperChat <19265>
+Thread      : signalHandler 7f790f684700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/signalHandlerThread/os_signalHandler.c/503/0/1490655221.346982436

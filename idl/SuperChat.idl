@@ -1,0 +1,59 @@
+module SuperChat
+{
+   // This file defines the DDS interface for the SuperChat
+   // program.
+
+   // Revision History:
+   //     Created 3/23/2017
+   //     fixed spelling, added pragme keylist  3/25/2017
+
+
+   const unsigned long MESSAGE_SIZE_MAX = 144;
+   const unsigned long CHATROOM_NAME_MAX = 25;
+   const unsigned long NICK_SIZE_MAX = 8;
+   const unsigned long CHATROOMS_MAX = 10;
+   const float USER_UPDATE_PERIOD = 2.5;
+
+   struct message
+   {
+      // this data is published when a user completes entering
+      // a message into SuperChat
+
+      char message[MESSAGE_SIZE_MAX];
+      // this is the actual message text that is entered by a user
+      unsigned long long uuid;
+      // unique identifier for a user.  contents TBD.
+      unsigned long long cksum;
+      // optional checksum for integrity assurance.
+      unsigned long chatroom_idx;
+      // an integer representing the checkroom index.
+   };
+#pragma keylist message
+
+   struct chatroom
+   {
+      // this data is published when a user changes the
+      // name of a chatroom
+
+      unsigned long chatroom_idx;
+      // an integer representing the checkroom index.
+      char chatroom_name[CHATROOM_NAME_MAX];
+      // name of the chatroom
+   };
+#pragma keylist chatroom
+
+   struct user
+   {
+      // this information is published by every
+      // SuperChat client every USER_UPDATE_PERIOD seconds
+
+      char nick[NICK_SIZE_MAX];
+      // users nickname
+      unsigned long long uuid;
+      // unique identifier for a user.  contents TBD.
+      unsigned long chatroom_idx;
+      // an integer representing the checkroom index.
+   };
+#pragma keylist user
+
+};
