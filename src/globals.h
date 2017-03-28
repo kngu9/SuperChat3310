@@ -59,7 +59,7 @@ settings * loadInitialSettings() {
         inFile.close();
     } else {
         initial_settings->uuid = generateUUID();
-        initial_settings->username = NULL;
+        initial_settings->username = "";
         writeSettings(initial_settings);
     }
     return initial_settings;
