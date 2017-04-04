@@ -9,7 +9,7 @@ then
     SPLICE_JDK=jdk
     export SPLICE_JDK
 fi
-OSPL_HOME="/home/khanh/Desktop/HDE/x86_64.linux"
+OSPL_HOME="/home/tylergustaf/Desktop/HDE/x86_64.linux"
 PATH=$OSPL_HOME/bin:$PATH
 LD_LIBRARY_PATH=$OSPL_HOME/lib${LD_LIBRARY_PATH:+:}$LD_LIBRARY_PATH
 CPATH=$OSPL_HOME/include:$OSPL_HOME/include/sys:${CPATH:=}
