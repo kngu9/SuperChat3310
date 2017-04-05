@@ -52,7 +52,10 @@ struct Chatroom
   unsigned long chatroom_idx;
   // name of the chatroom
   char chatroom_name[CHATROOM_NAME_MAX];
-
+  // number of users in the chatroom
+  int numUsers;
+  //  time when the chatroom became empty
+  long double timeEmpty;
 };
 
 struct User
@@ -75,6 +78,8 @@ User localUser;
 
 int numOfUsers = 0;
 bool RUNNING = 1;
+bool printingUsers = 0;
+bool printingChatrooms = 0;
 GUI * gui = new GUI();
 
 void *sub(void* trash)
@@ -83,17 +88,14 @@ void *sub(void* trash)
   os_time delay_200ms = { 0, 200000000 };
   messageSeq messageList;
   chatroomSeq chatroomList;
-  userSeq userList;
   SampleInfoSeq infoSeq;
 
   DDSEntityManager messageMgr;
   DDSEntityManager CRmanager;
-  DDSEntityManager userManager;
 
   // create domain participant
   messageMgr.createParticipant("SuperChat message");
   CRmanager.createParticipant("SuperChat chatroom");
-  userManager.createParticipant("SuperChat user");
 
   //create type
   messageTypeSupport_var messageTS = new messageTypeSupport();
@@ -102,37 +104,27 @@ void *sub(void* trash)
   chatroomTypeSupport_var chatroomTS = new chatroomTypeSupport();
   CRmanager.registerType(chatroomTS.in());
 
-  userTypeSupport_var userTS = new userTypeSupport();
-  userManager.registerType(userTS.in());
-
   //create Topic
   char messagetopic_name[] = "SuperChat_message";
   messageMgr.createTopic(messagetopic_name);
   char chatroomtopic_name[] = "SuperChat_chatroom";
   CRmanager.createTopic(chatroomtopic_name);
-  char usertopic_name[] = "SuperChat_user";
-  userManager.createTopic(usertopic_name);
 
   //create Subscriber
   messageMgr.createSubscriber();
   CRmanager.createSubscriber();
-  userManager.createSubscriber();
 
   // create DataReader
   messageMgr.createReader();
   CRmanager.createReader();
-  userManager.createReader();
 
   DataReader_var messagereader = messageMgr.getReader();
   DataReader_var chatroomreader = CRmanager.getReader();
-  DataReader_var userreader = userManager.getReader();
 
   messageDataReader_var messageReader = messageDataReader::_narrow(messagereader.in());
   checkHandle(messageReader.in(), "messageDataReader::_narrow");
   chatroomDataReader_var chatroomReader = chatroomDataReader::_narrow(chatroomreader.in());
   checkHandle(chatroomReader.in(), "chatroomDataReader::_narrow");
-  userDataReader_var userReader = userDataReader::_narrow(userreader.in());
-  checkHandle(userReader.in(), "userDataReader::_narrow");
 
   //cout << "=== [Subscriber] Ready ..." << endl;
 
@@ -145,13 +137,15 @@ void *sub(void* trash)
     checkStatus(status, "messageDataReader::take");
     for (DDS::ULong j = 0; j < messageList.length(); j++)
     {
-      //cout << "=== [Subscriber] message received :" << endl;
-      for(int i = 0; i < numOfUsers; i++)
+      if(messageList[j].chatroom_idx == localUser.chatroom_idx)
       {
-        if(listOfUsers[i].uuid == messageList[j].uuid)
+        for(int i = 0; i < numOfUsers; i++)
         {
-          gui->addMessage(listOfUsers[i].nick, messageList[j].message);
-          break;
+          if(listOfUsers[i].uuid == messageList[j].uuid)
+          {
+            gui->addMessage(listOfUsers[i].nick, messageList[j].message);
+            break;
+          }
         }
       }
     }
@@ -163,9 +157,16 @@ void *sub(void* trash)
     checkStatus(status, "chatroomDataReader::take");
     for (DDS::ULong j = 0; j < chatroomList.length(); j++)
     {
-      if(chatroomList[j].chatroom_idx != 1)
+      if(chatroomList[j].chatroom_idx > 0 && chatroomList[j].chatroom_idx <= 9)
       {
-        strncpy(listOfChatrooms[chatroomList[j].chatroom_idx - 1].chatroom_name, chatroomList[j].chatroom_name, CHATROOM_NAME_MAX);
+        strncpy(listOfChatrooms[chatroomList[j].chatroom_idx].chatroom_name, chatroomList[j].chatroom_name, CHATROOM_NAME_MAX);
+        if(printingChatrooms)
+        {
+          for(int i = 0; i < CHATROOMS_MAX; i++)
+          {
+            gui->addChatroom(listOfChatrooms[i].chatroom_idx, listOfChatrooms[i].chatroom_name, !i);
+          }
+        }
       }
 
     }
@@ -187,11 +188,6 @@ void *sub(void* trash)
   CRmanager.deleteSubscriber();
   CRmanager.deleteTopic();
   CRmanager.deleteParticipant();
-
-  userManager.deleteReader();
-  userManager.deleteSubscriber();
-  userManager.deleteTopic();
-  userManager.deleteParticipant();
 
   return 0;
 }
@@ -252,54 +248,69 @@ void *pub(void* trash)
   //cout << "===[Publisher] Ready ..." <<endl;
   while(RUNNING)
   {
-      j = 0;
-      input = gui->getInput();
+    j = 0;
+    input = gui->getInput();
 
+    if(input[0] == ':' && input[1] == 'C' && input[2] == 'C' && input[3] == 'R')
+    {
+      int num = input[5] - '0';
+      if(num >= 0 && num <= 9)
+      {
+        localUser.chatroom_idx = num;
+      }
+    }
+
+    else if(input[0] == ':' && input[1] == 'N' && input[2] == 'C' && input[3] == 'R')
+    {
+      int num = input[5] - '0';
+      if(num <= 9 && num >= 0)
+      {
+        chatroomInstance.chatroom_idx = num;
+        for(int i = 0; i < CHATROOM_NAME_MAX; i++)
+        {
+          chatroomInstance.chatroom_name[i] = input[i + 7];
+          if(chatroomInstance.chatroom_name[i] == '\n')
+          { break; }
+        }
+        status = chatroomWriter->write(chatroomInstance, DDS::HANDLE_NIL);
+        checkStatus(status, "chatroomDataWriter::write");
+      }
+    }
+
+    else if(input[0] == ':' && input[1] == 'P' && input[2] == 'C' && input[3] == 'R')
+    {
+      for(int i = 0; i < CHATROOMS_MAX; i++)
+      {
+        gui->addChatroom(listOfChatrooms[i].chatroom_idx, listOfChatrooms[i].chatroom_name, !i);
+      }
+      printingChatrooms = 1;
+      printingUsers = 0;
+    }
+
+    else if(input[0] == ':' && input[1] == 'P' && input[2] == 'U' && input[3] == 'R')
+    {
+      //gui->printUsers();
+      printingUsers = 1;
+      printingChatrooms = 0;
+    }
+
+    else if(input[0] == ':' && input[1] == 'P' && input[2] == 'H' && input[3] == 'P')
+    {
+      gui->printHelp();
+      printingUsers = 0;
+      printingChatrooms = 0;
+    }
+
+    else
+    {
       strncpy(messageInstance.message, input, MESSAGE_SIZE_MAX);
       messageInstance.uuid = localUser.uuid;
       messageInstance.chatroom_idx = localUser.chatroom_idx;
 
       status = messageWriter->write(messageInstance, DDS::HANDLE_NIL);
       checkStatus(status, "messageDataWriter::write");
-
-      
-    //Loop to get characters from input
-    /*do
-    {
-       cin.get(input[j]);
-       j++;
-    }while(j < MESSAGE_SIZE_MAX && (char)input[j-1] != '\n');
-
-    if(input[0] == '5')
-    {
-      cin >> chatroomInstance.chatroom_idx;
-      j = 0;
-      //Loop to get characters from input
-      cin.get();
-      do
-      {
-        cin.get(input[j]);
-        j++;
-      }while(j < CHATROOM_NAME_MAX && (char)input[j-1] != '\n');
-
-    strncpy(chatroomInstance.chatroom_name, input, CHATROOM_NAME_MAX);
-    status = chatroomWriter->write(chatroomInstance, DDS::HANDLE_NIL);
-    checkStatus(status, "chatroomDataWriter::write");
     }
-    else if(input[0] == '0')
-    {
-      RUNNING = 0;
-    }
-    else
-    {
 
-      strncpy(messageInstance.message, input, MESSAGE_SIZE_MAX);
-      messageInstance.uuid = localUser.uuid;
-
-      status = messageWriter->write(messageInstance, DDS::HANDLE_NIL);
-      checkStatus(status, "messageDataWriter::write");
-    }
-*/
     memset(input, 0, MESSAGE_SIZE_MAX);
 
   }
@@ -323,6 +334,52 @@ void *pub(void* trash)
   CRmanager.deleteParticipant();
 
   return 0;
+}
+
+void clearChatroom(int i, char* CRname)
+{
+  ReturnCode_t status;
+  DDSEntityManager CRmanager;
+
+  // create domain participant
+  CRmanager.createParticipant("SuperChat chatroom");
+
+  //create type
+
+  chatroomTypeSupport_var chatroomTS = new chatroomTypeSupport();
+  CRmanager.registerType(chatroomTS.in());
+
+  //create Topic
+  char chatroomtopic_name[] = "SuperChat_chatroom";
+  CRmanager.createTopic(chatroomtopic_name);
+
+  //create Publisher
+  CRmanager.createPublisher();
+
+  // create DataWriter :
+  // If autodispose_unregistered_instances is set to true (default value),
+  // you will have to start the subscriber before the publisher
+  bool autodispose_unregistered_instances = false;
+  CRmanager.createWriter(autodispose_unregistered_instances);
+
+  // Publish Events
+  DataWriter_var chatroomwriter = CRmanager.getWriter();
+
+  chatroomDataWriter_var chatroomWriter = chatroomDataWriter::_narrow(chatroomwriter.in());
+
+  chatroom chatroomInstance;
+
+  chatroomInstance.chatroom_idx = i;
+  strncpy(chatroomInstance.chatroom_name, CRname, CHATROOM_NAME_MAX);
+
+  status = chatroomWriter->write(chatroomInstance, DDS::HANDLE_NIL);
+  checkStatus(status, "chatroomDataWriter::write");
+
+  /*Clean Up*/
+  CRmanager.deleteWriter();
+  CRmanager.deletePublisher();
+  CRmanager.deleteTopic();
+  CRmanager.deleteParticipant();
 }
 
 void *sendUserInfo(void* trash)
@@ -380,6 +437,8 @@ void *watchUsers(void* trash)
   int check = 0;
   bool match = 0;
   long double timeWatchingUsers = 0;
+  char CRname[CHATROOM_NAME_MAX];
+  memset(CRname, 0, CHATROOM_NAME_MAX);
 
   ReturnCode_t status;
   userSeq userList;
@@ -422,10 +481,20 @@ void *watchUsers(void* trash)
           if(strcmp(listOfUsers[i].nick, userList[j].nick))
           {
             strncpy(listOfUsers[i].nick, userList[j].nick, NICK_SIZE_MAX);
+            if(printingUsers)
+            {
+              //gui->printUsers();
+            }
           }
           if(listOfUsers[i].chatroom_idx != userList[j].chatroom_idx)
           {
+            listOfChatrooms[listOfUsers[i].chatroom_idx].numUsers--;
+            if(listOfChatrooms[listOfUsers[i].chatroom_idx].numUsers == 0)
+            {
+              listOfChatrooms[listOfUsers[i].chatroom_idx].timeEmpty = timeWatchingUsers;
+            }
             listOfUsers[i].chatroom_idx = userList[j].chatroom_idx;
+            listOfChatrooms[listOfUsers[i].chatroom_idx].numUsers++;
           }
           listOfUsers[i].lastHeard = timeWatchingUsers;
           listOfUsers[i].online = 1;
@@ -437,7 +506,15 @@ void *watchUsers(void* trash)
         User tempUser;
         strncpy(tempUser.nick, userList[j].nick, NICK_SIZE_MAX);
         tempUser.uuid = userList[j].uuid;
-        tempUser.chatroom_idx = userList[j].chatroom_idx;
+        if(userList[j].chatroom_idx >= 0 && userList[j].chatroom_idx <= 9)
+        {
+          tempUser.chatroom_idx = userList[j].chatroom_idx;
+        }
+        else
+        {
+          tempUser.chatroom_idx = 0;
+        }
+        listOfChatrooms[tempUser.chatroom_idx].numUsers++;
         tempUser.online = 1;
         tempUser.lastHeard = timeWatchingUsers;
         listOfUsers.push_back(tempUser);
@@ -457,7 +534,18 @@ void *watchUsers(void* trash)
         {
           //cout << "USER OFFLINE\n";
           listOfUsers[i].online = 0;
-          gui->addMessage(listOfUsers[i].nick, "Has Gone Offline");
+          char msg[] = {"Has Gone Offline"};
+          gui->addMessage(listOfUsers[i].nick, msg);
+        }
+      }
+      for(int i = 0; i < CHATROOMS_MAX; i++)
+      {
+        if(listOfChatrooms[i].numUsers == 0 && ((timeWatchingUsers - 25) >= listOfChatrooms[i].timeEmpty))
+        {
+          if(strcmp(listOfChatrooms[i].chatroom_name, CRname))
+          {
+            clearChatroom(i, CRname);
+          }
         }
       }
     }
@@ -481,7 +569,9 @@ void initializeChatrooms()
 {
   //Create a temp chatroom to fill the chatroom vector
   Chatroom temp;
-  temp.chatroom_idx = 1;
+  temp.chatroom_idx = 0;
+  temp.timeEmpty = 0;
+  temp.numUsers = 0;
   char CRname[CHATROOM_NAME_MAX] = {"Public"};
   //Copy the CRname into the temp chatroom name
   strncpy(temp.chatroom_name, CRname, CHATROOM_NAME_MAX);
@@ -489,7 +579,8 @@ void initializeChatrooms()
   //Clear CRname so that all other chatroom names are initialized to empty
   memset(CRname, 0, CHATROOM_NAME_MAX);
   strncpy(temp.chatroom_name, CRname, CHATROOM_NAME_MAX);
-  for(int i = 2; i <= CHATROOMS_MAX; i++)
+
+  for(int i = 1; i < CHATROOMS_MAX; i++)
   {
     temp.chatroom_idx = i;
     listOfChatrooms.push_back(temp);
@@ -502,6 +593,7 @@ void initializeLocalUser()
   unsigned long long x;
   char *guiNick;
   char fileNick[NICK_SIZE_MAX];
+
 
   ofstream writer;
   ifstream file;
@@ -556,8 +648,6 @@ void initializeLocalUser()
 
   localUser.uuid = x;
   localUser.chatroom_idx = 0;
-  listOfUsers.push_back(localUser);
-  numOfUsers++;
   file.close();
 }
 
@@ -568,7 +658,7 @@ int main()
     
   initializeChatrooms();
   initializeLocalUser();
-
+  gui->printHelp();
   pthread_create(&userinfo, NULL, sendUserInfo, (void *) &trash);
   pthread_create(&getuserinfo, NULL, watchUsers, (void *) &trash);
   pthread_create(&pub_thread, NULL, &pub, (void *) &trash);

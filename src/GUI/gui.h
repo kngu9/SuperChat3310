@@ -31,7 +31,6 @@ class GUI {
         int d_row;
         int d_col;
 
-        Window * menu_window;
         ChatWindow * chat_window;
         ClientWindow * chat_clients_window;
         TextWindow * input_window;
@@ -43,6 +42,8 @@ class GUI {
         char * requestName();
         char * getInput();
         char * addMessage(char * username, char * message);
+        char * addChatroom(int chatroom_idx, char * name, bool reset);
+        void printHelp();
 };
 
 #endif //_H_GUI_H_

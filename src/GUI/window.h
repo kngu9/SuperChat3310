@@ -46,8 +46,16 @@ class TextWindow : public Window {
 };
 
 class ClientWindow : public Window {
+
+    private:
+    void _addChatroom(int chatroom_idx, const char * name, bool reset, int pattr, int attr);
+    int range;
+
     public:
         ClientWindow(int h, int w, int start_row, int start_col, int d_row, int d_col) : Window(h, w, start_row, start_col, d_row, d_col) {};
+    void addChatroom(int chatroom_idx, const char * name, bool reset);
+    void reset();
+    void printHelp();
 };
 
 #endif //_H_WINDOW_H_

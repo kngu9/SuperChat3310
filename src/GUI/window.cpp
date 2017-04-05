@@ -49,6 +49,15 @@ void ChatWindow::reset() {
     this->range = 1;
 }
 
+void ClientWindow::reset() {
+    wclear(this->win);
+    box(this->win, 0, 0);
+    wmove(this->win, 1, 1);
+    wrefresh(this->win);
+
+    this->range = 1;
+}
+
 void ChatWindow::_addMessage(const char * prepend, const char * msg, int pattr, int attr) {
     if(range > height - 2) {
         this->reset();
@@ -77,4 +86,33 @@ void ChatWindow::_addMessage(const char * prepend, const char * msg, int pattr, 
 
 void ChatWindow::addMessage(const char * username, const char * msg) {
     this->_addMessage(username, msg, CLRP_LABEL, CLRP_NORMAL);
+}
+
+
+void ClientWindow::_addChatroom(int chatroom_idx, const char * name, bool reset, int pattr, int attr) {
+    if(reset) {
+        this->reset();
+    }
+
+    double l2 = strlen(name);
+
+   
+    //wattron(this->win, pattr);
+    mvwprintw(this->win, range, 1, "%d %s", chatroom_idx, name);
+    //wattroff(this->win, pattr);
+
+
+    range += 1;
+    wrefresh(this->win);
+}
+
+void ClientWindow::addChatroom(int chatroom_idx, const char * name, bool reset) {
+    this->_addChatroom(chatroom_idx, name, reset, CLRP_LABEL, CLRP_NORMAL);
+}
+
+void ClientWindow::printHelp() {
+    this->reset();
+    mvwprintw(this->win, range+1, 1, "%s", "Welcome to SuperChat\nLegend:\n:CCR #  This will change your current chatroom\n:NCR # [name] This will change the name of the # chatroom\n");
+
+    wrefresh(this->win);
 }
