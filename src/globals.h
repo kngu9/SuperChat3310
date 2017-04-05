@@ -8,6 +8,7 @@
 #include <boost/uuid/uuid_generators.hpp>
 #include <boost/uuid/uuid_io.hpp>
 
+
 #define CONFIG_FILE ".config"
 
 #define MESSAGE_SIZE_MAX 144
@@ -44,7 +45,7 @@ struct User
   bool online;
 };
 
-GUI * gui = new GUI();
+
 
 long long generateUUID() {
     unsigned long long x;
@@ -55,68 +56,6 @@ long long generateUUID() {
     return x;
 }
 
-User initializeLocalUser()
-{
-  int j = 0;
-  unsigned long long x;
-  char *guiNick;
-  char fileNick[NICK_SIZE_MAX];
-  User localUser;
 
-
-  ofstream writer;
-  ifstream file;
-  file.open("superchatdata.txt");
-
-
-  if(file.fail())
-  {
-      
-      guiNick = gui->requestName();
-      x = generateUUID();
-      
-      writer.open("superchatdata.txt");
-      writer << x;
-      writer << " ";
-      writer << guiNick;
-      //Remove any newline character in the Nick
-      for(int i = 0; i < NICK_SIZE_MAX; i++)
-      {
-        if(guiNick[i] == '\n')
-        {
-          guiNick[i] = '\0';
-          break;
-        }
-      }
-      writer << "\n";
-      writer.close();
-      strncpy(localUser.nick, guiNick, NICK_SIZE_MAX);
-  }
-  else
-  {
-    file >> x;
-    file.get();
-    do
-    {
-      file.get(fileNick[j]);
-      j++;
-    }while(j < NICK_SIZE_MAX && (char)fileNick[j-1] != '\n');
-    //Remove any newline character in the Nick
-    for(int i = 0; i < NICK_SIZE_MAX; i++)
-    {
-      if(fileNick[i] == '\n')
-      {
-        fileNick[i] = '\0';
-        break;
-      }
-    }
-  strncpy(localUser.nick, fileNick, NICK_SIZE_MAX);
-  }
-
-  file.close();
-  localUser.uuid = x;
-  localUser.chatroom_idx = 0;
-  return localUser;
-}
 
 #endif //_H_GLOBALS_H_
