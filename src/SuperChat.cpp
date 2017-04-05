@@ -270,7 +270,7 @@ void *pub(void* trash)
         {
           chatroomInstance.chatroom_name[i] = input[i + 7];
           if(chatroomInstance.chatroom_name[i] == '\n')
-          { break; }
+          { chatroomInstance.chatroom_name[i] = '\0'; break; }
         }
         status = chatroomWriter->write(chatroomInstance, DDS::HANDLE_NIL);
         checkStatus(status, "chatroomDataWriter::write");
@@ -299,6 +299,30 @@ void *pub(void* trash)
       gui->printHelp();
       printingUsers = 0;
       printingChatrooms = 0;
+    }
+
+    else if(input[0] == ':' && input[1] == 'C' && input[2] == 'N' && input[3] == 'K')
+    {
+      char tempNick[NICK_SIZE_MAX];
+      for(int i = 0; i < NICK_SIZE_MAX; i++)
+      {
+        tempNick[i] = input[i + 5];
+        if(tempNick[i] == '\n')
+        { tempNick[i] = '\0'; break; }
+      }  
+      strncpy(localUser.nick, tempNick, NICK_SIZE_MAX); 
+      ofstream writer;
+      writer.open("superchatdata.txt");
+      writer << localUser.uuid;
+      writer << " ";
+      writer << localUser.nick;
+      writer << "\n";
+      writer.close();
+    }
+
+    else if(input[0] == ':' && input[1] == 'E' && input[2] == 'X' && input[3] == 'T')
+    {
+      RUNNING = 0;
     }
 
     else
@@ -478,6 +502,14 @@ void *watchUsers(void* trash)
         {
           //cout << "MATCH\n";
           match = 1;
+          listOfUsers[i].lastHeard = timeWatchingUsers;
+          if(listOfUsers[i].online == 0)
+          {
+            char msg[] = {"Has Come Online"};
+            gui->addMessage(listOfUsers[i].nick, msg);
+            listOfUsers[i].chatroom_idx = 0;
+          }
+          listOfUsers[i].online = 1;
           if(strcmp(listOfUsers[i].nick, userList[j].nick))
           {
             strncpy(listOfUsers[i].nick, userList[j].nick, NICK_SIZE_MAX);
@@ -493,11 +525,19 @@ void *watchUsers(void* trash)
             {
               listOfChatrooms[listOfUsers[i].chatroom_idx].timeEmpty = timeWatchingUsers;
             }
+            if(listOfUsers[i].chatroom_idx == localUser.chatroom_idx)
+            {
+              char msg[] = {"Has Left the Chatroom"};
+              gui->addMessage(listOfUsers[i].nick, msg);
+            }
             listOfUsers[i].chatroom_idx = userList[j].chatroom_idx;
             listOfChatrooms[listOfUsers[i].chatroom_idx].numUsers++;
+            if(listOfUsers[i].chatroom_idx == localUser.chatroom_idx)
+            {
+              char msg[] = {"Has Entered the Chatroom"};
+              gui->addMessage(listOfUsers[i].nick, msg);
+            }
           }
-          listOfUsers[i].lastHeard = timeWatchingUsers;
-          listOfUsers[i].online = 1;
         }
       }
       if(!match)
@@ -519,6 +559,8 @@ void *watchUsers(void* trash)
         tempUser.lastHeard = timeWatchingUsers;
         listOfUsers.push_back(tempUser);
         numOfUsers++;
+        char msg[] = {"Has Come Online"};
+        gui->addMessage(tempUser.nick, msg);
       }
     }
 
@@ -645,10 +687,12 @@ void initializeLocalUser()
   strncpy(localUser.nick, fileNick, NICK_SIZE_MAX);
   }
 
-
+  file.close();
   localUser.uuid = x;
   localUser.chatroom_idx = 0;
-  file.close();
+  listOfUsers.push_back(localUser);
+  numOfUsers++;
+  listOfUsers[0].online = 1;
 }
 
 int main()
@@ -669,6 +713,8 @@ int main()
   pthread_join(sub_thread, NULL);
   pthread_join(userinfo, NULL);
   pthread_join(getuserinfo, NULL);
+
+  gui->~GUI();
 
   return 0;
 }

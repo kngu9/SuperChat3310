@@ -67,17 +67,17 @@ void ChatWindow::_addMessage(const char * prepend, const char * msg, int pattr, 
     double l2 = strlen(msg);
 
     if (prepend != NULL) {
-        wattron(this->win, pattr);
+        //wattron(this->win, pattr);
         mvwprintw(this->win, range, 1,"%s",prepend);
-        wattroff(this->win, pattr);
+        //wattroff(this->win, pattr);
 
-        wattron(this->win, attr);
+        //wattron(this->win, attr);
         wprintw(this->win, ": %s",msg);
-        wattroff(this->win, attr);
+        //wattroff(this->win, attr);
     } else {
-        wattron(this->win, pattr);
+        //wattron(this->win, pattr);
         mvwprintw(this->win, range, 1, "%s",msg);
-        wattroff(this->win, pattr);
+        //wattroff(this->win, pattr);
     }
 
     range += 1;
@@ -112,7 +112,7 @@ void ClientWindow::addChatroom(int chatroom_idx, const char * name, bool reset) 
 
 void ClientWindow::printHelp() {
     this->reset();
-    mvwprintw(this->win, range+1, 1, "%s", "Welcome to SuperChat\nLegend:\n:CCR #  This will change your current chatroom\n:NCR # [name] This will change the name of the # chatroom\n");
+    mvwprintw(this->win, range+1, 1, "%s", "Welcome to\n SuperChat!\n :CCR #\n :NCR # [name]\n :PCR\n :CNK [nick]\n :PUR\n :EXT\n :PHP");
 
     wrefresh(this->win);
 }
