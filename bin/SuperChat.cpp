@@ -4,7 +4,7 @@
 //  
 //  File name: SuperChat.cpp
 //  Source: idl/SuperChat.idl
-//  Generated: Wed Mar 29 15:30:10 2017
+//  Generated: Wed Apr  5 16:34:39 2017
 //  OpenSplice V6.4.140407OSS
 //  
 //******************************************************************

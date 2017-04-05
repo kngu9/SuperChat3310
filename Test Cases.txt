@@ -1,0 +1,75 @@
+Check to see if the program works off of LAN connections (Should succeed)
+
+Try to type a message 150 characters long (Should Fail)
+
+Have two chatrooms active, have one user send a message in one chatroom,
+and see if the other user in another chatroom picks up the message (should fail)
+
+Open 15 users to be connected at one time (Should Succeed)
+
+Attempt to view all users (Should succeed)
+
+Have a second user go offline and verify an 'OFFLINE' message
+is broadcast (should succeed)
+
+Attempt to rename / delete the public chatroom
+
+Leave the Public chatroom inactive for (timeout period here) minutes / seconds
+and check to see if its deleted / renamed
+
+Attempt to rename all chatrooms (especially chatroom '10')
+
+Leave a chatroom inactive for the timeout period and see if its name is blanked out
+
+Have two users share the same nickname, and have them both output to the same chatroom,
+as well as different chatrooms
+
+Verify nickname and UUID stays constant between logins, for at least 2 users
+
+Attempt to change nickname
+
+Make a user description and then change it
+
+Attempt to view another user's nickname and description
+
+Verify the same user retains the same UUID between logins ( check txt file after
+proper application closure)
+
+*TEST NEEDED TO VERIFY MEMORY IS LINEARLY ASSIGNED TO THE AMOUNT OF USERS
+
+Test to see if our application communicates with another application of superchat
+
+Do we use OpenSplice Pub/Sub middleware to enable interoperability ( should be yes)
+
+Is an online message broadcast within 2 seconds of a user logging on?
+
+Is on offline message broadcast within 2 seconds of a user logging off?
+
+Does SuperChat work on Linux?
+
+Does the F1 key allow you to see a list of all chatrooms?
+
+Does the F2 key allow you to see a list of all users?
+
+Does the F3 key allow you to change your current nickname?
+
+Does the F4 key allow you to exit SuperChat?
+
+Attempt to type these strings into the chatbox, nicknames, descriptions, and chatroom names:
+\a
+\b
+\f
+\n
+\r
+\t
+\v
+\\
+\'
+\"
+\?
+\e
+\0
+All of the above should broadcast as typed
+
+
+

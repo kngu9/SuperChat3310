@@ -57,5 +57,4 @@ long long generateUUID() {
 }
 
 
-
 #endif //_H_GLOBALS_H_
