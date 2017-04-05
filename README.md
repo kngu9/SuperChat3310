@@ -1,19 +1,24 @@
-This is an example program to help with the semester project
+uperChat
 
- %   git clone https://github.com/bdavisCSE3320/SuperChat.git
+Requirements:
+*   gcc
+*   boost library
+*   ncurses library
+*   OpenSplice
 
- %  cd SuperChat/
+Installation Instructions:
+```
+sudo apt-get install libboost-all-dev
+sudo apt-get install libncurses5-dev libncursesw5-dev
+git clone https://github.com/kngu9/SuperChat3310
+cd SuperChat3310
+source scripts/release.com
+make clean && make
+./bin/SuperChat
+```
 
- %  vi scripts/release.com 
-
- % # Edit the file scripts/release.com to point to the opensplice distribution directory.  
-
- % # (change the OSPL_HOME environment variable)
-
- %  make clean
-
- %  make
-
- %  bin/SuperChat
-
-
+Testing Instructions:
+```
+cd SuperChat3310
+make test
+```
