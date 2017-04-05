@@ -1,4 +1,4 @@
-uperChat
+# SuperChat
 
 Requirements:
 *   gcc
