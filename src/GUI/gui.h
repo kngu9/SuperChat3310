@@ -43,6 +43,7 @@ class GUI {
         char * getInput();
         char * addMessage(char * username, char * message);
         char * addChatroom(int chatroom_idx, char * name, bool reset);
+        char * addUser(int chatroom_idx, char * name, bool online, bool reset);
         void printHelp();
 };
 

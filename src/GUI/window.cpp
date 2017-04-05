@@ -110,9 +110,44 @@ void ClientWindow::addChatroom(int chatroom_idx, const char * name, bool reset) 
     this->_addChatroom(chatroom_idx, name, reset, CLRP_LABEL, CLRP_NORMAL);
 }
 
+void ClientWindow::_addUser(int chatroom_idx, const char * name, bool online, bool reset, int pattr, int attr) {
+    if(reset) {
+        this->reset();
+    }
+
+    double l2 = strlen(name);
+
+   
+    //wattron(this->win, pattr);
+    if(online)
+    {
+      mvwprintw(this->win, range, 1, "%s CR:%d", name, chatroom_idx);
+    }
+    //wattroff(this->win, pattr);
+    else
+    {
+      mvwprintw(this->win, range, 1, "%s OFFLINE", name);
+    }
+
+
+    range += 1;
+    wrefresh(this->win);
+}
+
+void ClientWindow::addUser(int chatroom_idx, const char * name, bool online, bool reset) {
+    this->_addUser(chatroom_idx, name, online, reset, CLRP_LABEL, CLRP_NORMAL);
+}
+
 void ClientWindow::printHelp() {
     this->reset();
-    mvwprintw(this->win, range+1, 1, "%s", "Welcome to\n SuperChat!\n :CCR #\n :NCR # [name]\n :PCR\n :CNK [nick]\n :PUR\n :EXT\n :PHP");
-
+    mvwprintw(this->win, range++, 1, "%s", "Welcome to\n");
+    mvwprintw(this->win, range++, 1, "%s", "SuperChat!\n");
+    mvwprintw(this->win, range++, 1, "%s", ":CCR #\n");
+    mvwprintw(this->win, range++, 1, "%s", ":NCR # [name]\n");
+    mvwprintw(this->win, range++, 1, "%s", ":PCR\n");
+    mvwprintw(this->win, range++, 1, "%s", ":CNK [nick]\n");
+    mvwprintw(this->win, range++, 1, "%s", ":PUR\n");
+    mvwprintw(this->win, range++, 1, "%s", ":EXT\n");
+    mvwprintw(this->win, range++, 1, "%s", ":PHP");
     wrefresh(this->win);
 }

@@ -192,6 +192,16 @@ void *sub(void* trash)
   return 0;
 }
 
+void printUsers()
+{
+  for(int i = 0; i < numOfUsers; i++)
+  {
+    gui->addUser(listOfUsers[i].chatroom_idx, listOfUsers[i].nick, listOfUsers[i].online, !i);
+   }
+  printingUsers = 1;
+  printingChatrooms = 0;
+}
+
 void *pub(void* trash)
 {
   int j = 0;
@@ -289,9 +299,7 @@ void *pub(void* trash)
 
     else if(input[0] == ':' && input[1] == 'P' && input[2] == 'U' && input[3] == 'R')
     {
-      //gui->printUsers();
-      printingUsers = 1;
-      printingChatrooms = 0;
+      printUsers();
     }
 
     else if(input[0] == ':' && input[1] == 'P' && input[2] == 'H' && input[3] == 'P')
@@ -359,6 +367,7 @@ void *pub(void* trash)
 
   return 0;
 }
+
 
 void clearChatroom(int i, char* CRname)
 {
@@ -508,18 +517,20 @@ void *watchUsers(void* trash)
             char msg[] = {"Has Come Online"};
             gui->addMessage(listOfUsers[i].nick, msg);
             listOfUsers[i].chatroom_idx = 0;
+            if(printingUsers)
+            { printUsers(); }
           }
           listOfUsers[i].online = 1;
           if(strcmp(listOfUsers[i].nick, userList[j].nick))
           {
             strncpy(listOfUsers[i].nick, userList[j].nick, NICK_SIZE_MAX);
             if(printingUsers)
-            {
-              //gui->printUsers();
-            }
+            { printUsers(); }
           }
           if(listOfUsers[i].chatroom_idx != userList[j].chatroom_idx)
           {
+            if(printingUsers)
+            { printUsers(); }
             listOfChatrooms[listOfUsers[i].chatroom_idx].numUsers--;
             if(listOfChatrooms[listOfUsers[i].chatroom_idx].numUsers == 0)
             {
@@ -561,6 +572,8 @@ void *watchUsers(void* trash)
         numOfUsers++;
         char msg[] = {"Has Come Online"};
         gui->addMessage(tempUser.nick, msg);
+        if(printingUsers)
+        { printUsers(); }
       }
     }
 
@@ -578,6 +591,8 @@ void *watchUsers(void* trash)
           listOfUsers[i].online = 0;
           char msg[] = {"Has Gone Offline"};
           gui->addMessage(listOfUsers[i].nick, msg);
+          if(printingUsers)
+          { printUsers(); }
         }
       }
       for(int i = 0; i < CHATROOMS_MAX; i++)

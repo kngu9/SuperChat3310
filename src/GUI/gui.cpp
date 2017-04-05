@@ -47,6 +47,10 @@ char * GUI::addChatroom(int chatroom_idx, char * name, bool reset) {
     this->chat_clients_window->addChatroom(chatroom_idx, name, reset);
 }
 
+char * GUI::addUser(int chatroom_idx, char * name, bool online, bool reset) {
+    this->chat_clients_window->addUser(chatroom_idx, name, online, reset);
+}
+
 void GUI::printHelp() {
     this->chat_clients_window->printHelp();
 }
