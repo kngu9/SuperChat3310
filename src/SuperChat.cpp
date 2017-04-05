@@ -529,8 +529,6 @@ void *watchUsers(void* trash)
           }
           if(listOfUsers[i].chatroom_idx != userList[j].chatroom_idx)
           {
-            if(printingUsers)
-            { printUsers(); }
             listOfChatrooms[listOfUsers[i].chatroom_idx].numUsers--;
             if(listOfChatrooms[listOfUsers[i].chatroom_idx].numUsers == 0)
             {
@@ -548,6 +546,8 @@ void *watchUsers(void* trash)
               char msg[] = {"Has Entered the Chatroom"};
               gui->addMessage(listOfUsers[i].nick, msg);
             }
+            if(printingUsers)
+            { printUsers(); }
           }
         }
       }
