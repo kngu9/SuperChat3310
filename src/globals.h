@@ -71,10 +71,10 @@ User initializeLocalUser()
 
   if(file.fail())
   {
-      
+
       guiNick = gui->requestName();
       x = generateUUID();
-      
+
       writer.open("superchatdata.txt");
       writer << x;
       writer << " ";
