@@ -10,15 +10,44 @@
 
 #define CONFIG_FILE ".config"
 
+#define MESSAGE_SIZE_MAX 144
+#define CHATROOM_NAME_MAX 25
+#define NICK_SIZE_MAX 8
+#define CHATROOMS_MAX 10
+#define USER_UPDATE_PERIOD 2.5
+
 using namespace std;
 
-typedef struct settings_t {
-    long long uuid;
-    string username;
-} settings;
+struct Chatroom
+{
+  // an integer representing the checkroom index.
+  unsigned long chatroom_idx;
+  // name of the chatroom
+  char chatroom_name[CHATROOM_NAME_MAX];
+  // number of users in the chatroom
+  int numUsers;
+  //  time when the chatroom became empty
+  long double timeEmpty;
+};
+
+struct User
+{
+  // users nickname
+  char nick[NICK_SIZE_MAX];
+  // unique identifier for a user.  contents TBD.
+  unsigned long long uuid;
+  // an integer representing the checkroom index.
+  unsigned long chatroom_idx;
+  // Previouse time heard from
+  long double lastHeard;
+  // User's online status
+  bool online;
+};
+
+GUI * gui = new GUI();
 
 long long generateUUID() {
-    long long x;
+    unsigned long long x;
 
     boost::uuids::uuid uuid = boost::uuids::random_generator()();
     memcpy(&x, &uuid, sizeof(x));
@@ -26,43 +55,68 @@ long long generateUUID() {
     return x;
 }
 
-void writeSettings(settings * s) {
-    ofstream oFile;
+User initializeLocalUser()
+{
+  int j = 0;
+  unsigned long long x;
+  char *guiNick;
+  char fileNick[NICK_SIZE_MAX];
+  User localUser;
 
-    oFile.open(CONFIG_FILE);
 
-    oFile << s->username;
-    oFile << "\n";
-    oFile << s->uuid;
-    oFile << "\n";
+  ofstream writer;
+  ifstream file;
+  file.open("superchatdata.txt");
 
-    oFile.close();
-}
 
-settings * loadInitialSettings() {
-    settings * initial_settings = (settings *)malloc(sizeof(settings));
-    fstream inFile(CONFIG_FILE);
-
-    if(inFile.good()) {
-        //config file exists
-        string line, username;
-        long long uuid;
-
-        getline(inFile, line);
-        username = line;
-        getline(inFile, line);
-        uuid = atol(line.c_str());
-
-        initial_settings->username = username;
-        initial_settings->uuid = uuid;
-
-        inFile.close();
-    } else {
-        initial_settings->uuid = generateUUID();
-        initial_settings->username = "";
-        writeSettings(initial_settings);
+  if(file.fail())
+  {
+      
+      guiNick = gui->requestName();
+      x = generateUUID();
+      
+      writer.open("superchatdata.txt");
+      writer << x;
+      writer << " ";
+      writer << guiNick;
+      //Remove any newline character in the Nick
+      for(int i = 0; i < NICK_SIZE_MAX; i++)
+      {
+        if(guiNick[i] == '\n')
+        {
+          guiNick[i] = '\0';
+          break;
+        }
+      }
+      writer << "\n";
+      writer.close();
+      strncpy(localUser.nick, guiNick, NICK_SIZE_MAX);
+  }
+  else
+  {
+    file >> x;
+    file.get();
+    do
+    {
+      file.get(fileNick[j]);
+      j++;
+    }while(j < NICK_SIZE_MAX && (char)fileNick[j-1] != '\n');
+    //Remove any newline character in the Nick
+    for(int i = 0; i < NICK_SIZE_MAX; i++)
+    {
+      if(fileNick[i] == '\n')
+      {
+        fileNick[i] = '\0';
+        break;
+      }
     }
-    return initial_settings;
+  strncpy(localUser.nick, fileNick, NICK_SIZE_MAX);
+  }
+
+  file.close();
+  localUser.uuid = x;
+  localUser.chatroom_idx = 0;
+  return localUser;
 }
 
 #endif //_H_GLOBALS_H_

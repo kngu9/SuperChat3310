@@ -35,6 +35,7 @@
 #include <boost/uuid/uuid_generators.hpp>
 #include <boost/uuid/uuid_io.hpp>
 #include <ncurses.h>
+#include "globals.h"
 
 using namespace DDS;
 using namespace SuperChat;
@@ -46,32 +47,6 @@ using namespace SuperChat;
 #define USER_UPDATE_PERIOD 2.5
 
 
-struct Chatroom
-{
-  // an integer representing the checkroom index.
-  unsigned long chatroom_idx;
-  // name of the chatroom
-  char chatroom_name[CHATROOM_NAME_MAX];
-  // number of users in the chatroom
-  int numUsers;
-  //  time when the chatroom became empty
-  long double timeEmpty;
-};
-
-struct User
-{
-  // users nickname
-  char nick[NICK_SIZE_MAX];
-  // unique identifier for a user.  contents TBD.
-  unsigned long long uuid;
-  // an integer representing the checkroom index.
-  unsigned long chatroom_idx;
-  // Previouse time heard from
-  long double lastHeard;
-  // User's online status
-  bool online;
-};
-
 vector<User> listOfUsers;
 vector<Chatroom> listOfChatrooms;
 User localUser;
@@ -80,7 +55,7 @@ int numOfUsers = 0;
 bool RUNNING = 1;
 bool printingUsers = 0;
 bool printingChatrooms = 0;
-GUI * gui = new GUI();
+
 
 void *sub(void* trash)
 {
@@ -644,79 +619,18 @@ void initializeChatrooms()
   }
 }
 
-void initializeLocalUser()
-{
-  int j = 0;
-  unsigned long long x;
-  char *guiNick;
-  char fileNick[NICK_SIZE_MAX];
-
-
-  ofstream writer;
-  ifstream file;
-  file.open("superchatdata.txt");
-
-
-  if(file.fail())
-  {
-      
-      guiNick = gui->requestName();
-      boost::uuids::uuid uuid = boost::uuids::random_generator()();
-      memcpy(&x, &uuid, sizeof(x));
-      
-      writer.open("superchatdata.txt");
-      writer << x;
-      writer << " ";
-      writer << guiNick;
-      //Remove any newline character in the Nick
-      for(int i = 0; i < NICK_SIZE_MAX; i++)
-      {
-        if(guiNick[i] == '\n')
-        {
-          guiNick[i] = '\0';
-          break;
-        }
-      }
-      writer << "\n";
-      writer.close();
-      strncpy(localUser.nick, guiNick, NICK_SIZE_MAX);
-  }
-  else
-  {
-    file >> x;
-    file.get();
-    do
-    {
-      file.get(fileNick[j]);
-      j++;
-    }while(j < NICK_SIZE_MAX && (char)fileNick[j-1] != '\n');
-    //Remove any newline character in the Nick
-    for(int i = 0; i < NICK_SIZE_MAX; i++)
-    {
-      if(fileNick[i] == '\n')
-      {
-        fileNick[i] = '\0';
-        break;
-      }
-    }
-  strncpy(localUser.nick, fileNick, NICK_SIZE_MAX);
-  }
-
-  file.close();
-  localUser.uuid = x;
-  localUser.chatroom_idx = 0;
-  listOfUsers.push_back(localUser);
-  numOfUsers++;
-  listOfUsers[0].online = 1;
-}
-
 int main()
 {
   pthread_t pub_thread, sub_thread, userinfo, getuserinfo;
   int trash;
     
   initializeChatrooms();
-  initializeLocalUser();
+
+  localUser = initializeLocalUser();
+  listOfUsers.push_back(localUser);
+  numOfUsers++;
+  listOfUsers[0].online = 1;
+  
   gui->printHelp();
   pthread_create(&userinfo, NULL, sendUserInfo, (void *) &trash);
   pthread_create(&getuserinfo, NULL, watchUsers, (void *) &trash);
