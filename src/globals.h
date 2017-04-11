@@ -16,6 +16,8 @@
 #define NICK_SIZE_MAX 8
 #define CHATROOMS_MAX 10
 #define USER_UPDATE_PERIOD 2.5
+//Timeout time for the chatroom name in seconds (300 / 60 = 5 minutes)
+#define CHATROOM_NAME_TIMEOUT 300
 
 using namespace std;
 
