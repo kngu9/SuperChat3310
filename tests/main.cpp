@@ -33,7 +33,7 @@ void testGenerateUUID() {
 
 int main() {
     cout << "Running Test Case 1: Properly Generate UUID" << endl;
-    generateUUID();
+    testGenerateUUID();
 
     cout << "Ran all test cases!" << endl;
 }
