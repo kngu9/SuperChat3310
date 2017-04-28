@@ -283,13 +283,13 @@ void *pub(void* trash)
     //Check all possible user commands, if match is found execute the command
 
     //Change ChatRoom
-    if(input[0] == ':' && input[1] == 'C' && input[2] == 'C' && input[3] == 'R' && input[4] == ' ' && input[6] == ' ')
+    if(input[0] == ':' && input[1] == 'C' && input[2] == 'C' && input[3] == 'R')
     {
       //Convert char number to int
       int num = input[5] - '0';
       //Ignore if it is not a valid int
       //or if they have entered more than one int
-      if(num >= 0 && num <= 9 && input[4] == ' ' && input[6] == ' ')
+      if(num >= 0 && num <= 9 && input[4] == ' ' && input[6] == '\0')
       {
         //Update local user's chatroom index
         localUser.chatroom_idx = num;
