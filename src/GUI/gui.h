@@ -5,10 +5,14 @@
 #include <ncurses.h>
 #include <stdlib.h>
 
-#define _CLRP_NORMAL	0
+#define MESSAGE_SIZE_MAX 144
+#define CHATROOM_NAME_MAX 25
+#define NICK_SIZE_MAX 8
+
+#define _CLRP_NORMAL		0
 #define _CLRP_LABEL		8
 #define _CLRP_GREEN		9
-#define _CLRP_YELLOW	10
+#define _CLRP_YELLOW		10
 #define _CLRP_BLUE		11
 #define _CLRP_PINK		12
 #define _CLRP_CYAN		13
