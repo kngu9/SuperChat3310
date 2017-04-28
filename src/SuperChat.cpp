@@ -596,15 +596,15 @@ void *watchUsers(void* trash)
 
     //Every 5 seconds check the list of users for offline users
     //and check the list of chatrooms for empty chatrooms
-    if(check == 50)
+    if(check == 30)
     {
       check = 0;
       //Iterate through the list of users
-      for(int i = 0; i < numOfUsers; i++)
+      for(int i = 1; i < numOfUsers; i++)
       {
         //If a user is marked as online,
         //but we have not heard from them in too long
-        if(listOfUsers[i].online && ((timeWatchingUsers - 5) >= listOfUsers[i].lastHeard))
+        if(listOfUsers[i].online && ((timeWatchingUsers - 2.5) >= listOfUsers[i].lastHeard))
         {
           //Mark them as offline
           listOfUsers[i].online = 0;
@@ -644,7 +644,6 @@ void *watchUsers(void* trash)
   userManagerS.deleteSubscriber();
   userManagerS.deleteTopic();
   userManagerS.deleteParticipant();
-
 
 }
 
