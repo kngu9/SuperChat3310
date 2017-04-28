@@ -24,7 +24,7 @@ GUI::GUI() {
 }
 
 char * GUI::requestName() {
-    char * temp_buffer = (char*)malloc(sizeof(char) * 9);
+    char * temp_buffer = (char*)malloc(sizeof(char) * 8);
 
     this->input_window->getString("Username?", temp_buffer, 8);
 
@@ -32,7 +32,7 @@ char * GUI::requestName() {
 }
 
 char * GUI::getInput() {
-    char * temp_buffer = (char*)malloc(sizeof(char) * 145);
+    char * temp_buffer = (char*)malloc(sizeof(char) * 144);
 
     this->input_window->getString("Message", temp_buffer, 144);
 

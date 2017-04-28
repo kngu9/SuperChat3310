@@ -186,7 +186,7 @@ void *sub(void* trash)
     for (DDS::ULong j = 0; j < chatroomList.length(); j++)
     {
       //Ignore chatroom if the index is out of bounds.
-      if(chatroomList[j].chatroom_idx > 0 && chatroomList[j].chatroom_idx <= 9)
+      if(chatroomList[j].chatroom_idx >= 1 && chatroomList[j].chatroom_idx <= 9)
       {
         //Set timeEmpty so the chatroom name will clear after 5 minutes of
         //being empty.
@@ -283,13 +283,15 @@ void *pub(void* trash)
     //Check all possible user commands, if match is found execute the command
 
     //Change ChatRoom
-    if(input[0] == ':' && input[1] == 'C' && input[2] == 'C' && input[3] == 'R')
+    if(input[0] == ':' && input[1] == 'C' && input[2] == 'C' && input[3] == 'R' && input[4] == ' ' && input[6] == ' ')
     {
       //Convert char number to int
       int num = input[5] - '0';
-      //If it is a valid int update local user's chatroom
-      if(num >= 0 && num <= 9)
+      //Ignore if it is not a valid int
+      //or if they have entered more than one int
+      if(num >= 0 && num <= 9 && input[4] == ' ' && input[6] == ' ')
       {
+        //Update local user's chatroom index
         localUser.chatroom_idx = num;
       }
     }
@@ -299,7 +301,8 @@ void *pub(void* trash)
       int num = input[5] - '0';  //Convert char number to int
       char CRname[CHATROOM_NAME_MAX];
       //Ignore if it is not a valid int
-      if(num <= 9 && num >= 0)
+      //or if they have entered more than one int
+      if(num <= 9 && num >= 1 && input[4] == ' ' && input[6] == ' ')
       {
         //Collect the rest of the input from the user
         for(int i = 0; i < CHATROOM_NAME_MAX; i++)
@@ -442,6 +445,7 @@ void *sendUserInfo(void* trash)
   userManagerP.deleteTopic();
   userManagerP.deleteParticipant();
 }
+
 //Continuously recieve user info to keep track of present users
 //Also clear chatroom names when the chatroom is empty for too long
 void *watchUsers(void* trash)
@@ -613,7 +617,7 @@ void *watchUsers(void* trash)
         }
       }
       //Iterate through the list of chatrooms
-      for(int i = 0; i < CHATROOMS_MAX; i++)
+      for(int i = 1; i < CHATROOMS_MAX; i++)
       {
         //If a chatroom is empty and it has been empty for too long,
         if(listOfChatrooms[i].numUsers == 0 && ((timeWatchingUsers - CHATROOM_NAME_TIMEOUT) >= listOfChatrooms[i].timeEmpty))
@@ -670,7 +674,7 @@ void initializeLocalUser()
 {
   int j = 0;
   unsigned long long x;
-  char *guiNick;
+  char *guiNick = (char*) malloc(sizeof(char) * 8);
   char fileNick[NICK_SIZE_MAX];
 
   //Open the superchatdata.txt file

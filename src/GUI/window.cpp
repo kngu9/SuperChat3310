@@ -68,15 +68,18 @@ void ChatWindow::_addMessage(const char * prepend, const char * msg, int pattr, 
 
     if (prepend != NULL) {
         //wattron(this->win, pattr);
-        mvwprintw(this->win, range, 1,"%s",prepend);
+        //mvwprintw(this->win, range, 1,"%s",prepend);
+        mvwaddnstr(this->win, range, 1, prepend, 8);
         //wattroff(this->win, pattr);
 
         //wattron(this->win, attr);
-        wprintw(this->win, ": %s",msg);
+        wprintw(this->win, ": ");
+        waddnstr(this->win, msg, 144);
         //wattroff(this->win, attr);
     } else {
         //wattron(this->win, pattr);
-        mvwprintw(this->win, range, 1, "%s",msg);
+        mvwaddnstr(this->win, range, 1, msg, 144);
+        //mvwprintw(this->win, range, 1, "%s",msg);
         //wattroff(this->win, pattr);
     }
 
@@ -98,7 +101,8 @@ void ClientWindow::_addChatroom(int chatroom_idx, const char * name, bool reset,
 
    
     //wattron(this->win, pattr);
-    mvwprintw(this->win, range, 1, "%d %s", chatroom_idx, name);
+    mvwprintw(this->win, range, 1, "%d ", chatroom_idx);
+    waddnstr(this->win, name, 25);
     //wattroff(this->win, pattr);
 
 
@@ -121,12 +125,14 @@ void ClientWindow::_addUser(int chatroom_idx, const char * name, bool online, bo
     //wattron(this->win, pattr);
     if(online)
     {
-      mvwprintw(this->win, range, 1, "%s CR:%d", name, chatroom_idx);
+      mvwaddnstr(this->win, range, 1, name, 8);
+      wprintw(this->win, " CR:%d", chatroom_idx);
     }
     //wattroff(this->win, pattr);
     else
     {
-      mvwprintw(this->win, range, 1, "%s OFFLINE", name);
+      mvwaddnstr(this->win, range, 1, name, 8);
+      wprintw(this->win, " OFFLINE");
     }
 
 
